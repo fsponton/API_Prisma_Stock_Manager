@@ -1,0 +1,17 @@
+
+# Dependency directories
+node_modules/
+node_modules/*
+node_modules/.prisma/client/schema.prisma
+
+comandos/
+
+# dotenv environment variables file
+.env
+.env.test
+
+#migration 
+prisma/migrations/*
+
+# package-lock.json
+package-lock.json

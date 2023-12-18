@@ -1,0 +1,84 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id         Int    @id @unique @default(autoincrement())
+  full_name  String
+  email      String   @unique
+  role       Role    @default(USER)
+  password   String
+  active     Boolean   @default(true)
+  orders     Order[]   // seller orders
+  product    Product[]
+}
+
+enum Role {
+  USER
+  ADMIN
+}
+
+model Product {
+  id           String   @id @unique @default(uuid())
+  name         String
+  model        String
+  category     Category @relation(fields: [id_category], references: [id])
+  id_category  Int
+  brand        String
+  price        Float
+  code         String
+  available    Boolean
+  description  String?
+  quantity     Int
+  sector       String?
+  rack         String?
+  square_meter Int?
+  size         Int?
+  weight       Int?
+  creator      User     @relation(fields: [id_creator], references: [id])
+  id_creator   Int
+  Order        Order?   @relation(fields: [id_order], references: [id])
+  id_order     String?
+}
+
+model Category {
+  id          Int    @id @unique @default(autoincrement())
+  name        String
+  available   Boolean
+  Product     Product[]
+}
+
+model Client{
+  id            String    @id @unique @default(uuid())
+  name          String
+  cuit_cuil_dni String
+  phone         Int
+  email         String
+  direccion     String
+  orders        Order[]
+}
+
+model Order {
+  id            String    @id @unique @default(uuid())
+  createdAt     DateTime   @default(now())
+  status        Status_Order @relation(fields: [id_status], references: [id])
+  id_status     Int       // status order
+  client        Client    @relation(fields: [id_client], references: [id])
+  id_client     String
+  products      Product[]  // products on order
+  seller        User      @relation(fields: [id_seller], references: [id])
+  id_seller     Int    // seller user
+}
+
+model Status_Order {
+  id          Int    @id @unique @default(autoincrement())
+  status      String  // pending - in progress - finished
+  orders      Order[]
+}
+
+
