@@ -24,6 +24,7 @@ server.use((err, req, res, next) => {
         errorName: err.name,
         message: err.message
     })
+    //test
 })
 
 
