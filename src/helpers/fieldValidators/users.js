@@ -18,11 +18,11 @@ const passwordRegex = /^(?=.*[A-Z])(?=.*[\W_]).{6,}$/;
 
 const isValidNewPassword = (password) => {
     const passwordParsed = parseToString(password)
-    const isValidPassword = passwordRegex.test(passwordParsed)
+    const isisValidPassword = passwordRegex.test(passwordParsed)
 
-    validPasswordLength(passwordParsed)
+    isValidPassword(passwordParsed)
 
-    if (!isValidPassword) {
+    if (!isisValidPassword) {
         throw new UserError("invalid Password. The password must contain at least 1 uppercase letter, 1 special character, and be a minimum of 6 characters long", 400)
     }
 
@@ -30,20 +30,21 @@ const isValidNewPassword = (password) => {
 }
 
 // check the length of password when the user tries to login
-const validPasswordLength = (password) => {
+const isValidPassword = (password) => {
+    const passwordParsed = parseToString(password)
 
-    if (password.length <= 5) {
+    if (passwordParsed.length <= 5) {
         throw new UserError("the password must be at least 6 characters", 400)
     }
 
-    return password
+    return passwordParsed
 }
 
 // check the email when the user tries create or login
 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 const isValidEmail = (email) => {
-    const emailParsed = parseToString(email).toLocaleLowerCase()
+    const emailParsed = parseToString(email).toLocaleLowerCase().trim()
     const isEmail = emailRegex.test(emailParsed)
 
     if (!isEmail) {
@@ -57,5 +58,5 @@ export {
     isValidEmail,
     parseToString,
     isValidNewPassword,
-    validPasswordLength
+    isValidPassword
 }

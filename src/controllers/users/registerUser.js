@@ -1,4 +1,3 @@
-
 import { toNewUserEntry } from "../../utils/formValidation/users/toNewUserEntry.js";
 import saveRegistration from "../../config/DB/repository/users/saveRegistration.js";
 
