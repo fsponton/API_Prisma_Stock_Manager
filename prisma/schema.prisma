@@ -15,7 +15,7 @@ model User {
   password   String
   active     Boolean   @default(true)
   orders     Order[]   // seller orders
-  product    Product[]
+  product    Product[] // charged products
 }
 
 enum Role {
@@ -61,6 +61,7 @@ model Client{
   email         String
   direccion     String
   orders        Order[]
+  invoices      Invoice[]
 }
 
 model Order {
@@ -73,6 +74,7 @@ model Order {
   products      Product[]  // products on order
   seller        User      @relation(fields: [id_seller], references: [id])
   id_seller     Int    // seller user
+  invoice       Invoice? 
 }
 
 model Status_Order {
@@ -82,3 +84,12 @@ model Status_Order {
 }
 
 
+model Invoice {
+  id          String    @id @unique @default(uuid())
+  order       Order     @relation(fields: [id_order], references: [id])
+  id_order    String    @unique
+  date        DateTime  @default(now())
+  total       Float
+  clientData  Client    @relation(fields: [id_client], references: [id])
+  id_client   String
+}
