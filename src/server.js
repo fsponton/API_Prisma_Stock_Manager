@@ -24,7 +24,6 @@ server.use('/', routerUsers);
 
 
 server.use((err, req, res, next) => {
-
     //errores duplicados cuando se inteta registrar un dato unico que existe, ej email
     if (err.code === 'P2002') {
         return res.status(409).send({

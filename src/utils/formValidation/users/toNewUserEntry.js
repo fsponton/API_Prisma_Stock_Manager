@@ -1,4 +1,4 @@
-import { parseToString, isValidEmail, isValidNewPassword } from "../../../helpers/fieldValidators/users.js"
+import { parseToString, isValidEmail, isValidNewPassword } from "../../../helpers/users/users.js"
 
 const toNewUserEntry = ({ full_name, email, password }) => {
 

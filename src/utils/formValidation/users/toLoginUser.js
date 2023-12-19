@@ -1,4 +1,4 @@
-import { isValidEmail, isValidPassword } from "../../../helpers/fieldValidators/users.js"
+import { isValidEmail, isValidPassword } from "../../../helpers/users/users.js"
 
 const toLoginUser = ({ email, password }) => {
 

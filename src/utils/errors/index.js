@@ -13,3 +13,12 @@ export class TokenError extends Error {
         this.code = code;
     }
 }
+
+
+export class KeysError extends Error {
+    constructor(message, code = 400) {
+        super(message);
+        this.name = 'KeysError'
+        this.code = code;
+    }
+}
