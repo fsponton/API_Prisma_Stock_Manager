@@ -1,14 +1,13 @@
-import loginKeysValidator from "../../helpers/users/keyValidators/loginKeysValidator.js"
+import keysValidator from "../../helpers/users/keysValidator.js"
 import { toLoginUser } from "../../utils/formValidation/users/toLoginUser.js"
 
 const loginValidator = (req, _res, next) => {
     const { email, password } = req.body
+    const originalKeys = ["email", "password"]
 
-    loginKeysValidator(Object.keys(req.body))
+    keysValidator(Object.keys(req.body), originalKeys)
 
-    const loginData = toLoginUser({ email, password })
-
-    req.loginData = loginData
+    req.loginData = toLoginUser({ email, password })
 
     next()
 }
