@@ -6,7 +6,8 @@ import { PASSWORD_TOKEN } from "../../../enviroments.js"
 
 const prisma = new PrismaClient()
 
-const authentication = async ({ email, password }) => {
+export default async ({ email, password }) => {
+
 
     const user = await prisma.user.findUnique({ where: { email } })
 
@@ -25,7 +26,6 @@ const authentication = async ({ email, password }) => {
 
     const token = jwt.sign(userForToken, `${PASSWORD_TOKEN}`, { expiresIn: 60 * 60 })
 
-    return { ...userForToken, token }
-}
+    return ({ ...userForToken, token })
 
-export default authentication;
+}

@@ -1,7 +1,7 @@
 import catchedAsync from "../../utils/catchedAsync.js"
 
 import registerUserModule from "./registerUser.js"
-import loginUserModule from "./login.js"
+import loginUserModule from "./loginUser.js"
 // import getUserModule from "./get_users"
 // import updateUserModule from "./update_user"
 // import deleteUserModule from "./delete_user"

@@ -1,9 +1,11 @@
 import keysValidator from "../../helpers/users/keysValidator.js"
 import { toLoginUser } from "../../utils/formValidation/users/toLoginUser.js"
+import getOriginalLeysPath from "../../helpers/users/getOriginalKeysForPath.js"
+
 
 const loginValidator = (req, _res, next) => {
     const { email, password } = req.body
-    const originalKeys = ["email", "password"]
+    const originalKeys = getOriginalLeysPath(req.path)
 
     keysValidator(Object.keys(req.body), originalKeys)
 
