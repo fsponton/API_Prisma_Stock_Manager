@@ -8,7 +8,8 @@ const registerValidator = (req, _res, next) => {
     keysValidator(Object.keys(req.body), originalKeys)
 
     req.newUserEntry = toNewUserEntry({ full_name, email, password })
-
+    console.log(req.newUserEntry)
+    console.log('registerValidator')
     next()
 }
 

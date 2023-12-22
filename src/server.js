@@ -23,14 +23,13 @@ server.use((req, res, next) => {
 server.use('/', routerUsers);
 
 
-server.use((err, req, res, next) => {
+server.use((err, _req, res, _next) => {
 
-    console.log(err)
     //errores duplicados cuando se inteta registrar un dato unico que existe, ej email
     if (err.code === 'P2002') {
         return res.status(409).send({
             error: true,
-            errorName: 'duplicate',
+            errorName: 'Duplicate Unique',
             message: `The ${err.meta.target[0]} has already exists on the database`
         })
     }
