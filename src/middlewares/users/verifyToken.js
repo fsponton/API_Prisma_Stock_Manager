@@ -17,5 +17,7 @@ export default (req, _res, next) => {
         throw new TokenError('Token missing or invalid', 401)
     }
 
+    req.token = decodedToken
+
     next()
 }

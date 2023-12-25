@@ -13,6 +13,7 @@ model User {
   email      String   @unique
   role       Role    @default(USER)
   password   String
+  resetToken String?
   active     Boolean   @default(true)
   orders     Order[]   // seller orders
   product    Product[] // charged products

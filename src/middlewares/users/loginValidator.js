@@ -3,7 +3,7 @@ import { toLoginUser } from "../../utils/formValidation/users/toLoginUser.js"
 import getOriginalLeysPath from "../../helpers/users/getOriginalKeysForPath.js"
 
 
-const loginValidator = (req, _res, next) => {
+export default (req, _res, next) => {
     const { email, password } = req.body
     const originalKeys = getOriginalLeysPath(req.path)
 
@@ -13,5 +13,3 @@ const loginValidator = (req, _res, next) => {
 
     next()
 }
-
-export default loginValidator;
