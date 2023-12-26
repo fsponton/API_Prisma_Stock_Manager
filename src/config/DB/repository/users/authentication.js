@@ -8,7 +8,6 @@ const prisma = new PrismaClient()
 
 export default async ({ email, password }) => {
 
-
     const user = await prisma.user.findUnique({ where: { email } })
 
     const encryptedPassword = user === null ? false

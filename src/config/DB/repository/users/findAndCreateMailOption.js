@@ -15,6 +15,8 @@ export default async (emailFromRequest) => {
 
     const token = jwt.sign({ id: user?.id }, `${PASSWORD_TOKEN}`, { expiresIn: '10m' })
 
+    console.log('tokenBACK', token)
+
     verificationLink = `http://localhost:5173/reset_password/${token}` //link front end donde el user pone la pw y hace la request al back para resetear
     await prisma.user.update({
         where: { id: user?.id },

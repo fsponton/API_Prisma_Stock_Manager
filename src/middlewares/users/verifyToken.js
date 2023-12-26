@@ -12,7 +12,10 @@ export default (req, _res, next) => {
     } else { throw new TokenError("Invalid authorization", 401) }
 
     const decodedToken = jwt.decode(token, `${PASSWORD_TOKEN}`)
-    console.log(decodedToken)
+
+    //Si el token viene desde el link que se genera para recuperar password hay que cmabiar los simbolos "/" por "." 
+    //En el front se envia los "." por "/" porque si no la url no lo puede leer. 
+
     if (!token || !decodedToken) {
         throw new TokenError('Token missing or invalid', 401)
     }
