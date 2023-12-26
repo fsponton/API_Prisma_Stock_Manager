@@ -12,7 +12,7 @@ export default (req, _res, next) => {
     } else { throw new TokenError("Invalid authorization", 401) }
 
     const decodedToken = jwt.decode(token, `${PASSWORD_TOKEN}`)
-
+    console.log(decodedToken)
     if (!token || !decodedToken) {
         throw new TokenError('Token missing or invalid', 401)
     }
