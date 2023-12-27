@@ -1,6 +1,6 @@
 import { Router } from "express"
 import { registerUser, loginUser, forgotPassword, resetPassword, getUsers } from "../controllers/users/index.js";
-import { loginValidator, registerValidator, verifyToken, resetPasswordValidator } from "../middlewares/users/index.js"
+import { loginValidator, registerValidator, verifyToken, resetPasswordValidator, updateValidator } from "../middlewares/users/index.js"
 
 
 const routerUsers = Router();
@@ -13,7 +13,9 @@ routerUsers.post("/forgot_password", forgotPassword)
 
 routerUsers.put("/reset_password", verifyToken, resetPasswordValidator, resetPassword)
 
-routerUsers.get("/users", verifyToken, getUsers)
+routerUsers.get("/", verifyToken, getUsers)
+
+routerUsers.put("/:userID", updateValidator)
 
 
 

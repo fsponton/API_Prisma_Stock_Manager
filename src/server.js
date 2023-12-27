@@ -20,7 +20,7 @@ server.use((req, res, next) => {
 
 
 //routes
-server.use('/', routerUsers);
+server.use('/users', routerUsers);
 
 
 server.use((err, _req, res, _next) => {
