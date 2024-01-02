@@ -13,14 +13,20 @@ export default (req, _res, next) => {
 
     const decodedToken = jwt.decode(token, `${PASSWORD_TOKEN}`)
 
-    //Si el token viene desde el link que se genera para recuperar password hay que cmabiar los simbolos "/" por "." 
-    //En el front se envia los "." por "/" porque si no la url no lo puede leer. 
+    // Si el token viene desde el link que se genera para recuperar password, hay que cambiar los simbolos "/" por "." 
+    // En el front se envía los "." por "/" porque si no, la URL no lo puede leer. 
 
-    if (!token || !decodedToken) {
-        throw new TokenError('Token missing or invalid', 401)
+    try {
+        const decodedToken = jwt.verify(token, `${PASSWORD_TOKEN}`);
+
+        req.token = decodedToken;
+
+        next();
+    } catch (error) {
+        if (error.name === 'TokenExpiredError') {
+            throw new TokenError('Token has expired', 401);
+        } else {
+            throw new TokenError('Token missing or invalid', 401);
+        }
     }
-
-    req.token = decodedToken
-
-    next()
 }
