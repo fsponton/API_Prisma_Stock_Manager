@@ -1,6 +1,6 @@
 import { Router } from "express"
-import { registerUser, loginUser, forgotPassword, resetPassword, getUsers, updateUser } from "../controllers/users/index.js";
-import { loginValidator, registerValidator, verifyToken, resetPasswordValidator, updateValidator, verifyRole } from "../middlewares/users/index.js"
+import { registerUser, loginUser, forgotPassword, resetPassword, getUsers, updateUser, deleteUser, logOutUser } from "../controllers/users/index.js";
+import { loginValidator, registerValidator, verifyToken, resetPasswordValidator, updateValidator, verifyRole, deleteValidator } from "../middlewares/users/index.js"
 
 
 const routerUsers = Router();
@@ -11,11 +11,16 @@ routerUsers.post("/login", loginValidator, loginUser)
 
 routerUsers.post("/forgot_password", forgotPassword)
 
-routerUsers.put("/reset_password", verifyToken, verifyRole, resetPasswordValidator, resetPassword)
+routerUsers.put("/reset_password", verifyToken, resetPasswordValidator, resetPassword)
 
 routerUsers.get("/", verifyToken, getUsers)
 
 routerUsers.put("/:userID", verifyToken, verifyRole, updateValidator, updateUser)
+
+routerUsers.delete("/delete", verifyToken, verifyRole, deleteValidator, deleteUser)
+
+routerUsers.post("/logout", verifyToken, logOutUser)
+
 
 
 
