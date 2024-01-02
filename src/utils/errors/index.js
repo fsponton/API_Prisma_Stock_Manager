@@ -14,6 +14,15 @@ export class TokenError extends Error {
     }
 }
 
+export class AccessError extends Error {
+    constructor(message, code = 401) {
+        super(message);
+        this.name = 'accessError'
+        this.code = code;
+    }
+}
+
+
 
 export class KeysError extends Error {
     constructor(message, code = 400) {

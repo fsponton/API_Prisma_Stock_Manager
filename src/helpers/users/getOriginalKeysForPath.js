@@ -9,6 +9,6 @@ export default (path) => {
         update: ["full_name", "email", "role", "active"]
     }
 
-    return Number(isNumber(path)) ? originalKeys[update] : originalKeys[path.slice(1)];
+    return Number(isNumber(path)) ? originalKeys['update'] : originalKeys[path.slice(1)];
 
 }

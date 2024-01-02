@@ -1,15 +1,19 @@
 import keysValidator from "../../helpers/users/keysValidator.js"
-import { toNewUserEntry } from "../../utils/formValidation/users/toNewUserEntry.js"
-import getOriginalLeysPath from "../../helpers/users/getOriginalKeysForPath.js"
+import getOriginalKeysPath from "../../helpers/users/getOriginalKeysForPath.js"
+import { toUpdateUser } from "../../utils/formValidation/users/toUpdateUser.js"
 
 export default (req, _res, next) => {
+    const { full_name, email, role, active } = req.body
+    const originalKeys = getOriginalKeysPath(Number(req.path.slice(1)))
 
-    const originalKeys = getOriginalLeysPath(Number(req.path.slice(1)))
+    console.log(originalKeys)
 
     keysValidator(Object.keys(req.body), originalKeys)
 
-    req.newUserEntry = toUpdateUser({ full_name, email, password })
+    const userDataToUpdate = toUpdateUser({ full_name, email, role, active })
 
-    // next()
+    req.userToUpdate = ({ ...userDataToUpdate, id: Number(req.path.slice(1)) })
+
+    next()
 }
 
