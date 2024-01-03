@@ -1,4 +1,4 @@
-import { KeysError } from "../../utils/errors/index.js"
+import { KeysError } from "../utils/errors/index.js"
 
 
 const keysValidator = (keysFromRequest, originalKeys) => {

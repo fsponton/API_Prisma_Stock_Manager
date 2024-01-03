@@ -17,8 +17,26 @@ const isValidRole = (value) => {
     return value.toUpperCase()
 }
 
+const handleNullable = (value, defaultVal = null) => {
+    return value !== null ? value : defaultVal;
+};
+
+const isString = (string) => {
+    return typeof string === 'string'
+}
+
+const parseToString = (valueFromRequest) => {
+    if (!isString(valueFromRequest)) {
+        throw new Error(`incorrect ${valueFromRequest} or missing value `)
+    }
+    return valueFromRequest
+}
+
+
 export {
     isNumber,
     isBoolean,
-    isValidRole
+    isValidRole,
+    handleNullable,
+    parseToString
 }

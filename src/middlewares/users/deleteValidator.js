@@ -1,4 +1,4 @@
-import keysValidator from "../../helpers/users/keysValidator.js"
+import keysValidator from "../../helpers/keysValidator.js"
 import getOriginalKeysPath from "../../helpers/users/getOriginalKeysForPath.js"
 import { isNumber } from "../../helpers/genericFunctions.js"
 import { UserError } from "../../utils/errors/index.js"

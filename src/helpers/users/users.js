@@ -1,16 +1,5 @@
 import { UserError } from "../../utils/errors/index.js"
-
-const isString = (string) => {
-    return typeof string === 'string'
-}
-
-
-const parseToString = (valueFromRequest) => {
-    if (!isString(valueFromRequest)) {
-        throw new Error(`incorrect ${valueFromRequest} or missing value `)
-    }
-    return valueFromRequest
-}
+import { parseToString } from "../genericFunctions.js";
 
 
 // check the password to create a user or reset password

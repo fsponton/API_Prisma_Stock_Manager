@@ -1,4 +1,4 @@
-import keysValidator from "../../helpers/users/keysValidator.js"
+import keysValidator from "../../helpers/keysValidator.js"
 import { toNewUserEntry } from "../../utils/formValidation/users/toNewUserEntry.js"
 import getOriginalKeysPath from "../../helpers/users/getOriginalKeysForPath.js"
 

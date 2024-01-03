@@ -4,6 +4,8 @@ import morgan from "morgan";
 
 export const server = express();
 import routerUsers from "./routers/users.js"
+import routerProducts from "./routers/products.js";
+import routerCategories from "./routers/categories.js";
 
 // middlewares
 server.use(express.json());
@@ -21,6 +23,8 @@ server.use((req, res, next) => {
 
 //routes
 server.use('/users', routerUsers);
+server.use('/products', routerProducts)
+server.use('/categories', routerCategories)
 
 
 server.use((err, _req, res, _next) => {
