@@ -33,8 +33,6 @@ export class NotFoundError extends Error {
 }
 
 
-
-
 export class KeysError extends Error {
     constructor(message, code = 400) {
         super(message);
