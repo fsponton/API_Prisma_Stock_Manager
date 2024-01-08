@@ -28,7 +28,7 @@ server.use('/categories', routerCategories)
 
 
 server.use((err, _req, res, _next) => {
-    console.log(err)
+    console.log('ERRRen server', err)
     //errores duplicados cuando se inteta registrar un dato unico que existe, ej email
     if (err.code === 'P2002') {
         return res.status(409).send({
@@ -37,6 +37,15 @@ server.use((err, _req, res, _next) => {
             message: `The ${err.meta.target[0]} has already exists on the database`
         })
     }
+
+    if (err.code === 'p2025') {
+        return res.status(404).send({
+            error: true,
+            errorName: 'Not found',
+            message: `${err.meta} `
+        })
+    }
+
     return res.status(err.code).send({
         error: true,
         errorName: err.name,

@@ -23,6 +23,17 @@ export class AccessError extends Error {
 }
 
 
+//errors when try any action on DB
+export class NotFoundError extends Error {
+    constructor(message, code = 404) {
+        super(message);
+        this.name = 'Not Found'
+        this.code = code;
+    }
+}
+
+
+
 
 export class KeysError extends Error {
     constructor(message, code = 400) {

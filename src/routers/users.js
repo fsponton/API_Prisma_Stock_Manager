@@ -22,6 +22,4 @@ routerUsers.delete("/delete", verifyToken, verifyRole, deleteValidator, deleteUs
 routerUsers.post("/logout", verifyToken, logOutUser)
 
 
-
-
 export default routerUsers;
