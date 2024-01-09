@@ -1,7 +1,7 @@
 export default (path) => {
 
     const originalKeys = {
-        add: ["name", "available"]
+        add: ["name"]
     }
 
     return originalKeys[path.slice(1)];

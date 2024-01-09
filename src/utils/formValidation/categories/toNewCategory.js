@@ -1,11 +1,11 @@
 import { isBoolean } from "../../../helpers/genericFunctions.js";
 import { parseToString } from "../../../helpers/users/users.js"
 
-const toNewCategory = ({ name, available }) => {
+const toNewCategory = ({ name, available = true }) => {
 
     const newEntry = {
         name: parseToString(name),
-        available: isBoolean(available)
+        available
     }
 
     return newEntry

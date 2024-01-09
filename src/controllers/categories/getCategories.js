@@ -1,7 +1,9 @@
-import get from "../../config/DB/repository/categories/get.js"
+import BaseService from "../../config/DB/baseServices.js"
+
+const baseService = new BaseService('Category')
 
 export default async (_req, res) => {
-    const result = await get()
+    const result = await baseService.findAll()
     return res.status(200)
-        .send({ status: "Success", message: `All categories`, categories: result })
+        .send({ status: "Success", message: `All categories`, data: result })
 }

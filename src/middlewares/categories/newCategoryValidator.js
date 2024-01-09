@@ -3,13 +3,13 @@ import getOriginalKeysPath from "../../helpers/categories/getOriginalKeysForPath
 import { toNewCategory } from "../../utils/formValidation/categories/toNewCategory.js"
 
 export default (req, _res, next) => {
-    const { name, available } = req.body
+    const { name } = req.body
 
     const originalKeys = getOriginalKeysPath(req.path)
 
     keysValidator(Object.keys(req.body), originalKeys)
 
-    req.newCategory = toNewCategory({ name, available })
+    req.body = toNewCategory({ name })
 
     next()
 }

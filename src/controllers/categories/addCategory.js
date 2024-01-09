@@ -1,8 +1,10 @@
-import create from "../../config/DB/repository/categories/create.js"
+import BaseService from "../../config/DB/baseServices.js"
+
+const baseService = new BaseService('Category')
 
 export default async (req, res) => {
-    const { newCategory } = req
-    const result = await create(newCategory)
+    const { name, available } = req.body
+    const result = await baseService.create({ name, available })
     return res.status(200)
         .send({ status: "Success", message: `The category with name: ${result.name} has been created` })
 }
