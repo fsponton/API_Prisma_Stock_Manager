@@ -3,7 +3,7 @@ import BaseService from "../../config/DB/baseServices.js";
 import bcrypt from "bcryptjs"
 import jwt from "jsonwebtoken"
 import { PASSWORD_TOKEN } from "../enviroments.js";
-
+import { UserError } from "../../utils/errors/index.js";
 
 const prisma = new PrismaClient();
 

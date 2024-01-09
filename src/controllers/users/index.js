@@ -8,7 +8,6 @@ import getUsersModule from "./getUsers.js"
 import updateUserModule from "./updateUser.js"
 import deleteUserModule from "./deleteUser.js"
 import logOutUserModule from "./logOutUser.js"
-// import disableUserModule from "./disable_user"
 
 export const registerUser = catchedAsync(registerUserModule)
 export const loginUser = catchedAsync(loginUserModule)
@@ -18,5 +17,3 @@ export const getUsers = catchedAsync(getUsersModule)
 export const updateUser = catchedAsync(updateUserModule)
 export const deleteUser = catchedAsync(deleteUserModule)
 export const logOutUser = catchedAsync(logOutUserModule)
-// export const disableUser = catchedAsync(disableUserModule)
-// export const forgotPassword = catchedAsync(forgotPasswordModule)

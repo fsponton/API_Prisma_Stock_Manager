@@ -48,11 +48,20 @@ class BaseService {
 
     async delete(id) {
         try {
+
+            const existingRecord = await prisma[this.modelName].findUnique({
+                where: { id },
+            });
+
+            if (!existingRecord) {
+                throw new Error(`No ${this.modelName} found with ID: ${id}`, 500);
+            }
+
             return await prisma[this.modelName].delete({
                 where: { id },
             });
-        } catch (error) {
-            throw new Error(`Error deleting ${this.modelName}: ${error.message}`);
+        } catch (err) {
+            throw new Error(`Error deleting ${this.modelName}: ${err.message}`, 500);
         }
     }
 }
