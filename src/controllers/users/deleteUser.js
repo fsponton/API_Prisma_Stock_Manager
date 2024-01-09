@@ -1,8 +1,10 @@
-import _delete from "../../config/DB/repository/users/delete.js"
+import BaseService from "../../config/DB/baseServices.js"
+
+const baseService = new BaseService('User')
 
 export default async (req, res) => {
     const { idUserToDelete } = req
-    const result = await _delete(idUserToDelete)
+    const result = await baseService.delete(idUserToDelete)
     return res.status(200)
         .send({ status: "Success", message: `The user with the id ${result.id} and email ${result.email} has been delete` })
 }
