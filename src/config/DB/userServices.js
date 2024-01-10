@@ -99,20 +99,16 @@ class UserService extends BaseService {
                     });
                     return user;
                 } else {
+                    await prisma.user.update({
+                        where: {
+                            id,
+                        },
+                        data: {
+                            resetToken: null,
+                        },
+                    });
                     throw new TokenError('token_expired')
                 }
-            }
-            //TEST - this condition is when you reset from the dashboard // 
-            else {
-                await prisma.user.update({
-                    where: {
-                        id,
-                    },
-                    data: {
-                        password: passwordHash
-                    }
-                });
-                return user;
             }
         } catch (error) {
             throw new Error(`Error resetting password: ${error.message}`);
