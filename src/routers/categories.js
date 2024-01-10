@@ -5,13 +5,17 @@ import { addCategory, disableCategory, getCategories, deleteCategory } from "../
 
 const routerCategories = Router();
 
-routerCategories.post("/add", verifyToken, newCategoryValidator, addCategory)
+// verifyToken,
+routerCategories.post("/add", newCategoryValidator, addCategory)
 
-routerCategories.put("/:categoryID", verifyToken, disableCategory)
+// verifyToken, verifyRole,
+routerCategories.put("/:categoryID", disableCategory)
 
-routerCategories.get("/", verifyToken, getCategories)
+// verifyToken,
+routerCategories.get("/", getCategories)
 
-routerCategories.delete("/:categoryID", verifyToken, verifyRole, deleteCategory)
+// verifyToken, verifyRole,
+routerCategories.delete("/:categoryID", deleteCategory)
 
 
 export default routerCategories;

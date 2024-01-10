@@ -32,6 +32,14 @@ export class NotFoundError extends Error {
     }
 }
 
+export class DatabaseError extends Error {
+    constructor(message) {
+        super(message);
+        this.name = 'DatabaseError';
+        this.code = 500;
+    }
+}
+
 
 export class KeysError extends Error {
     constructor(message, code = 400) {

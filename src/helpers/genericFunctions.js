@@ -27,7 +27,7 @@ const isString = (string) => {
 
 const parseToString = (valueFromRequest) => {
     if (!isString(valueFromRequest)) {
-        throw new Error(`incorrect ${valueFromRequest} or missing value `)
+        throw new UserError(`Bad Request: The value is: ${valueFromRequest} or missing`, 400)
     }
     return valueFromRequest
 }

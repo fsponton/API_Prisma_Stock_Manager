@@ -12,7 +12,7 @@ const isValidNewPassword = (password) => {
     isValidPassword(passwordParsed)
 
     if (!isisValidPassword) {
-        throw new UserError("invalid Password. The password must contain at least 1 uppercase letter, 1 special character, and be a minimum of 6 characters long", 400)
+        throw new UserError("Bad Request: invalid Password. The password must contain at least 1 uppercase letter, 1 special character, and be a minimum of 6 characters long", 400)
     }
 
     return passwordParsed
@@ -23,7 +23,7 @@ const isValidPassword = (password) => {
     const passwordParsed = parseToString(password)
 
     if (passwordParsed.length <= 5) {
-        throw new UserError("the password must be at least 6 characters", 400)
+        throw new UserError("Bad Request: The password must be at least 6 characters", 400)
     }
 
     return passwordParsed
@@ -37,7 +37,7 @@ const isValidEmail = (email) => {
     const isEmail = emailRegex.test(emailParsed)
 
     if (!isEmail) {
-        throw new UserError("Invalid Email", 400);
+        throw new UserError("Bad Request: Invalid Email", 400);
     }
 
     return emailParsed;

@@ -46,7 +46,7 @@ server.use((err, _req, res, _next) => {
         })
     }
 
-    return res.status(500).send({
+    return res.status(err.code).send({
         error: true,
         errorName: err.name,
         message: err.message

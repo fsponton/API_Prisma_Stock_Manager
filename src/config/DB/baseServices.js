@@ -1,4 +1,5 @@
 import { PrismaClient } from "@prisma/client";
+import { NotFoundError, DatabaseError } from "../../utils/errors/index.js";
 
 const prisma = new PrismaClient();
 
@@ -19,11 +20,13 @@ class BaseService {
 
     async findById(id) {
         try {
-            return await prisma[this.modelName].findUnique({
+            const result = await prisma[this.modelName].findUnique({
                 where: { id },
             });
+            if (!user) { throw new NotFoundError(`The ${this.modelName} with ID: ${id} doesn't exist`, 404) }
+            return result
         } catch (error) {
-            throw new Error(`Error retrieving ${this.modelName}: ${error.message}`);
+            throw new DatabaseError(`Error retrieving ${this.modelName}: ${error.message}`);
         }
     }
 
@@ -31,7 +34,7 @@ class BaseService {
         try {
             return await prisma[this.modelName].findMany();
         } catch (error) {
-            throw new Error(`Error retrieving ${this.modelName}s: ${error.message}`);
+            throw new DatabaseError(`Error retrieving ${this.modelName}s: ${error.message}`);
         }
     }
 
@@ -42,7 +45,7 @@ class BaseService {
                 data,
             });
         } catch (error) {
-            throw new Error(`Error updating ${this.modelName}: ${error.message}`);
+            throw new NotFoundError(`Error updating ${this.modelName}: ${error.message}`, 404);
         }
     }
 
@@ -54,14 +57,14 @@ class BaseService {
             });
 
             if (!existingRecord) {
-                throw new Error(`No ${this.modelName} found with ID: ${id}`, 500);
+                throw new NotFoundError(`No ${this.modelName} found with ID: ${id}`, 404);
             }
 
             return await prisma[this.modelName].delete({
                 where: { id },
             });
         } catch (err) {
-            throw new Error(`Error deleting ${this.modelName}: ${err.message}`, 500);
+            throw new DatabaseError(`Error deleting ${this.modelName}: ${err.message}`, err.code);
         }
     }
 }

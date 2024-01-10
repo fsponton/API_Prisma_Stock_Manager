@@ -39,7 +39,7 @@ class UserService extends BaseService {
 
             return { ...userForToken, token };
         } catch (error) {
-            throw new Error('Internal Error', 500);
+            throw new UserError(`Error when try login sesion: ${error.message}`, error.code);
         }
     }
 
