@@ -1,15 +1,16 @@
 import { transporter } from "../../config/tansporter.js"
 import { mailOptions } from "../../config/mailer.js"
-import findAndCreateMailOption from "../../config/DB/repository/users/findAndCreateMailOption.js";
 import { isValidEmail } from "../../helpers/users/users.js";
+import UserService from "../../config/DB/userServices.js";
 
+const userService = new UserService('User')
 
 export default async (req, res) => {
     const { email } = req.body
 
-    const userEmailEntry = isValidEmail(email)
+    const emailEntry = isValidEmail(email)
 
-    const mailOption = await findAndCreateMailOption(userEmailEntry)
+    const mailOption = await userService.findAndCreateMailOption({ email: emailEntry })
 
     transporter.sendMail(mailOptions(mailOption.email, mailOption.slug), (err) => {
         if (err) { return process.exit(1); }
