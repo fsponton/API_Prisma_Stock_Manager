@@ -3,7 +3,7 @@ import BaseService from "../../config/DB/baseServices.js";
 import bcrypt from "bcryptjs"
 import jwt from "jsonwebtoken"
 import { PASSWORD_TOKEN } from "../enviroments.js";
-import { UserError } from "../../utils/errors/index.js";
+import { DatabaseError, NotFoundError, UserError } from "../../utils/errors/index.js";
 import { TokenError } from "../../utils/errors/index.js";
 
 const prisma = new PrismaClient();
@@ -50,7 +50,7 @@ class UserService extends BaseService {
 
             const user = await prisma.user.findUnique({ where: { email } })
 
-            if (!user) { throw new Error(`The user with ${id} dosen't exist`) }
+            if (!user) { throw new NotFoundError(`The user with ${email} dosen't exist`) }
 
             const token = jwt.sign({ id: user?.id }, `${PASSWORD_TOKEN}`, { expiresIn: '10m' })
 
@@ -67,7 +67,7 @@ class UserService extends BaseService {
             }
             return mailOption;
         } catch (error) {
-            throw new Error(`Error in reset password process: ${error.message}`);
+            throw new DatabaseError(`Error when try to send an email for reset password: ${error.message}`);
         }
     }
 
@@ -111,7 +111,7 @@ class UserService extends BaseService {
                 }
             }
         } catch (error) {
-            throw new Error(`Error resetting password: ${error.message}`);
+            throw new DatabaseError(`Error resetting password: ${error.message}`);
         }
     }
 }
