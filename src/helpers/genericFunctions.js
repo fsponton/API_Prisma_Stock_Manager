@@ -4,7 +4,7 @@ const canBeNulls = ['description', 'sector', 'rack', 'square_meter', 'size', 'we
 
 const isNumber = (key, value) => {
 
-    if (canBeNulls.includes(key)) { return value }
+    if (canBeNulls.includes(key)) { return null }
 
     if (typeof value !== 'number' || isNaN(value) || !isFinite(value)) {
         throw new UserError(`The value of Key: ${key} is not numeric`)

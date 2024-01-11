@@ -18,7 +18,7 @@ const toNewProduct = ({ name, model, id_category, brand, price, code, available,
         square_meter: isNumber('square_meter', handleNullable(square_meter)),
         size: isNumber('size', handleNullable(square_meter)),
         weight: isNumber('weight', handleNullable(square_meter)),
-        id_creator: isNumber('id_creator', id_creator),
+        id_creator,
     }
 
     return newEntry

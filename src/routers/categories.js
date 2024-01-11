@@ -1,11 +1,11 @@
 import { Router } from "express"
 import { verifyToken, verifyRole } from "../middlewares/users/index.js"
 import { newCategoryValidator } from "../middlewares/categories/index.js";
-import { addCategory, disableCategory, getCategories, deleteCategory } from "../controllers/categories/index.js";
+import { newCategory, disableCategory, getCategories, deleteCategory } from "../controllers/categories/index.js";
 
 const routerCategories = Router();
 
-routerCategories.post("/new", verifyToken, newCategoryValidator, addCategory)
+routerCategories.post("/new", verifyToken, newCategoryValidator, newCategory)
 
 routerCategories.put("/:categoryID", verifyToken, verifyRole, disableCategory)
 
