@@ -23,7 +23,7 @@ class BaseService {
             const result = await prisma[this.modelName].findUnique({
                 where: { id },
             });
-            if (!user) { throw new NotFoundError(`The ${this.modelName} with ID: ${id} doesn't exist`, 404) }
+            if (!result) { throw new NotFoundError(`The ${this.modelName} with ID: ${id} doesn't exist`, 404) }
             return result
         } catch (error) {
             throw new DatabaseError(`Error retrieving ${this.modelName}: ${error.message}`);

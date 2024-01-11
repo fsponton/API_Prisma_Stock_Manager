@@ -8,6 +8,7 @@ import getUsersModule from "./getUsers.js"
 import updateUserModule from "./updateUser.js"
 import deleteUserModule from "./deleteUser.js"
 import logOutUserModule from "./logOutUser.js"
+import getByIdModule from "./getById.js"
 
 export const registerUser = catchedAsync(registerUserModule)
 export const loginUser = catchedAsync(loginUserModule)
@@ -17,3 +18,4 @@ export const getUsers = catchedAsync(getUsersModule)
 export const updateUser = catchedAsync(updateUserModule)
 export const deleteUser = catchedAsync(deleteUserModule)
 export const logOutUser = catchedAsync(logOutUserModule)
+export const getById = catchedAsync(getByIdModule)
