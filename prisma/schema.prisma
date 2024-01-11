@@ -24,6 +24,13 @@ enum Role {
   ADMIN
 }
 
+model Category {
+  id          Int    @id @unique @default(autoincrement())
+  name        String
+  available   Boolean
+  Product     Product[]
+}
+
 model Product {
   id           String   @id @unique @default(uuid())
   name         String
@@ -43,26 +50,16 @@ model Product {
   weight       Int?
   creator      User     @relation(fields: [id_creator], references: [id])
   id_creator   Int
-  Order        Order?   @relation(fields: [id_order], references: [id])
-  id_order     String?
+  product_orders ProductOrder[]
 }
 
-model Category {
-  id          Int    @id @unique @default(autoincrement())
-  name        String
-  available   Boolean
-  Product     Product[]
-}
-
-model Client{
-  id            String    @id @unique @default(uuid())
-  name          String
-  cuit_cuil_dni String
-  phone         Int
-  email         String
-  direccion     String
-  orders        Order[]
-  invoices      Invoice[]
+model ProductOrder{
+  id_order String
+  id_product String
+  product      Product @relation(fields: [id_product], references: [id])
+  order        Order @relation(fields: [id_order], references: [id])
+  quantity     Int
+  @@id([id_order, id_product])
 }
 
 model Order {
@@ -72,7 +69,7 @@ model Order {
   id_status     Int       // status order
   client        Client    @relation(fields: [id_client], references: [id])
   id_client     String
-  products      Product[]  // products on order
+  products      ProductOrder[] // products on order
   seller        User      @relation(fields: [id_seller], references: [id])
   id_seller     Int    // seller user
   invoice       Invoice? 
@@ -84,7 +81,6 @@ model Status_Order {
   orders      Order[]
 }
 
-
 model Invoice {
   id          String    @id @unique @default(uuid())
   order       Order     @relation(fields: [id_order], references: [id])
@@ -93,4 +89,14 @@ model Invoice {
   total       Float
   clientData  Client    @relation(fields: [id_client], references: [id])
   id_client   String
+}
+model Client{
+  id            String    @id @unique @default(uuid())
+  name          String
+  cuit_cuil_dni String
+  phone         Int
+  email         String
+  direccion     String
+  orders        Order[]
+  invoices      Invoice[]
 }

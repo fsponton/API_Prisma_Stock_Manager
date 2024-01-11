@@ -12,7 +12,7 @@ const toUpdateUser = ({ full_name, email, role, active }) => {
         full_name: parseToString(full_name),
         email: isValidEmail(email),
         role: isValidRole(parseToString(role)),
-        active: isBoolean(active)
+        active: isBoolean('active', active)
     }
 
     return updateUser

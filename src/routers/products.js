@@ -7,7 +7,7 @@ const routerProducts = Router();
 
 // verifyToken,
 
-routerProducts.post("/add", newProductValidator)
+routerProducts.post("/new", newProductValidator)
 
 
 export default routerProducts;

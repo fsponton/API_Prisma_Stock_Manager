@@ -11,7 +11,7 @@ export default (req, _res, next) => {
 
     keysValidator(Object.keys(req.body), originalKeys)
 
-    if (!isNumber(id) || id === null) { throw new UserError("The id needs to be numeric and not null") }
+    if (!isNumber('id', id) || id === null) { throw new UserError("The id needs to be numeric and not null") }
 
     req.idUserToDelete = id
 
