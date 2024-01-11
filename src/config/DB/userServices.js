@@ -13,6 +13,23 @@ class UserService extends BaseService {
         super(modelName);
     }
 
+    async findAll() {
+        try {
+            return await prisma.user.findMany({
+                select: {
+                    id: true,
+                    full_name: true,
+                    email: true,
+                    role: true,
+                    active: true,
+                },
+            });
+
+        } catch (error) {
+            throw new DatabaseError(`Error retrieving users: ${error.message}`);
+        }
+    }
+
     async authentication({ email, password }) {
         try {
             const user = await prisma.user.findUnique({ where: { email } });

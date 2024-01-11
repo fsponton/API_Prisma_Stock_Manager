@@ -10,6 +10,6 @@ export default (path) => {
         delete: ["id"]
     }
 
-    return Number(isNumber(':userID', path)) ? originalKeys['update'] : originalKeys[path.slice(1)];
+    return Number(path) ? originalKeys['update'] : originalKeys[path.slice(1)];
 
 }

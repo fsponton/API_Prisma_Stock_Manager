@@ -2,8 +2,6 @@ import { Router } from "express"
 import { registerUser, loginUser, forgotPassword, resetPassword, getUsers, updateUser, deleteUser, logOutUser, getById } from "../controllers/users/index.js";
 import { loginValidator, getByIdValidator, registerValidator, verifyToken, resetPasswordValidator, updateValidator, verifyRole, deleteValidator } from "../middlewares/users/index.js"
 
-
-
 const routerUsers = Router();
 
 routerUsers.post("/register_user", verifyToken, verifyRole, registerValidator, registerUser)

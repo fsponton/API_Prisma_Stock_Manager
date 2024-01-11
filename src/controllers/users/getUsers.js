@@ -1,6 +1,6 @@
-import BaseService from "../../config/DB/baseServices.js";
+import UserService from "../../config/DB/userServices.js"
 
-const baseService = new BaseService('User')
+const baseService = new UserService()
 
 export default async (_req, res) => {
     const result = await baseService.findAll()

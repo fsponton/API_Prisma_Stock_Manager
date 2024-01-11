@@ -6,7 +6,7 @@ import { parseToString } from "../genericFunctions.js";
 const passwordRegex = /^(?=.*[A-Z])(?=.*[\W_]).{6,}$/;
 
 const isValidNewPassword = (password) => {
-    const passwordParsed = parseToString(password)
+    const passwordParsed = parseToString('password', password)
     const isisValidPassword = passwordRegex.test(passwordParsed)
 
     isValidPassword(passwordParsed)
@@ -20,7 +20,7 @@ const isValidNewPassword = (password) => {
 
 // check the length of password when the user tries to login
 const isValidPassword = (password) => {
-    const passwordParsed = parseToString(password)
+    const passwordParsed = parseToString('password', password)
 
     if (passwordParsed.length <= 5) {
         throw new UserError("Bad Request: The password must be at least 6 characters", 400)
@@ -33,7 +33,7 @@ const isValidPassword = (password) => {
 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 const isValidEmail = (email) => {
-    const emailParsed = parseToString(email).toLocaleLowerCase().trim()
+    const emailParsed = parseToString('email', email).toLocaleLowerCase().trim()
     const isEmail = emailRegex.test(emailParsed)
 
     if (!isEmail) {

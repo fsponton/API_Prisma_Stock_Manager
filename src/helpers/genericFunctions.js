@@ -1,6 +1,11 @@
 import { UserError } from "../utils/errors/index.js";
 
+const canBeNulls = ['description', 'sector', 'rack', 'square_meter', 'size', 'weight',]
+
 const isNumber = (key, value) => {
+
+    if (canBeNulls.includes(key)) { return value }
+
     if (typeof value !== 'number' || isNaN(value) || !isFinite(value)) {
         throw new UserError(`The value of Key: ${key} is not numeric`)
     }
@@ -24,13 +29,16 @@ const handleNullable = (value, defaultValue = null) => {
     return value !== null ? value : defaultValue;
 };
 
-const isString = (string) => {
-    return typeof string === 'string' && value !== null
+const isString = (value) => {
+    return typeof value === 'string' && value !== null
 }
 
-const parseToString = (value) => {
-    if (!isString(value)) {
-        throw new UserError(`Bad Request: The value is: ${value} or missing`, 400)
+const parseToString = (key, value) => {
+
+    if (canBeNulls.includes(key)) { return value }
+
+    if (!isString(value) || value.length < 3) {
+        throw new UserError(`Bad Request: The value on key: ${key} is not valid or missing. The value should have at least 3 characters.`, 400)
     }
     return value;
 }

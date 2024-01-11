@@ -8,7 +8,7 @@ const toNewCategory = ({ name, available = true }) => {
     }
 
     const newEntry = {
-        name: parseToString(name),
+        name: parseToString('name', name),
         available
     }
 

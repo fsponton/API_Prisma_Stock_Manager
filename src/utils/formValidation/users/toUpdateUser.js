@@ -9,9 +9,9 @@ const toUpdateUser = ({ full_name, email, role, active }) => {
     }
 
     const updateUser = {
-        full_name: parseToString(full_name),
+        full_name: parseToString('full_name', full_name),
         email: isValidEmail(email),
-        role: isValidRole(parseToString(role)),
+        role: isValidRole(parseToString('role', role)),
         active: isBoolean('active', active)
     }
 
