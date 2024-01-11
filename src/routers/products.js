@@ -5,7 +5,9 @@ import { newProductValidator } from "../middlewares/products/index.js";
 
 const routerProducts = Router();
 
-routerProducts.post("/add", verifyToken, newProductValidator)
+// verifyToken,
+
+routerProducts.post("/add", newProductValidator)
 
 
 export default routerProducts;

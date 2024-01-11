@@ -5,7 +5,7 @@ import { addCategory, disableCategory, getCategories, deleteCategory } from "../
 
 const routerCategories = Router();
 
-routerCategories.post("/add", verifyToken, newCategoryValidator, addCategory)
+routerCategories.post("/new", verifyToken, newCategoryValidator, addCategory)
 
 routerCategories.put("/:categoryID", verifyToken, verifyRole, disableCategory)
 
