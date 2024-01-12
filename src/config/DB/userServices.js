@@ -30,6 +30,26 @@ class UserService extends BaseService {
         }
     }
 
+
+    async findById(id) {
+        try {
+            const result = await prisma.user.findUnique({
+                where: { id },
+                select: {
+                    id: true,
+                    full_name: true,
+                    email: true,
+                    role: true,
+                    active: true,
+                },
+            });
+            if (!result) { throw new NotFoundError(`The ${this.modelName} with ID: ${id} doesn't exist`, 404) }
+            return result
+        } catch (error) {
+            throw new DatabaseError(`Error retrieving ${this.modelName}: ${error.message}`);
+        }
+    }
+
     async authentication({ email, password }) {
         try {
             const user = await prisma.user.findUnique({ where: { email } });
