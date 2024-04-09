@@ -4,7 +4,7 @@ export default (path) => {
 
     const originalKeys = {
         login: ["email", "password"],
-        register_user: ["full_name", "email", "password"],
+        register: ["full_name", "email", "password"],
         reset_password: ["password"],
         update: ["full_name", "email", "role", "active"],
         delete: ["id"]

@@ -71,7 +71,7 @@ class UserService extends BaseService {
                 role: user.role,
                 active: user.active
             };
-            console.log(userForToken)
+
             const token = jwt.sign(userForToken, `${PASSWORD_TOKEN}`, { expiresIn: 60 * 60 });
 
             return { ...userForToken, token };

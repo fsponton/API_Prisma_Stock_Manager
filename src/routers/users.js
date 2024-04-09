@@ -18,7 +18,7 @@ routerUsers.get("/:userID", verifyToken, getByIdValidator, getById)
 
 routerUsers.put("/:userID", verifyToken, verifyRole, updateValidator, updateUser)
 
-routerUsers.delete("/", verifyToken, verifyRole, deleteValidator, deleteUser)
+routerUsers.delete("/delete", verifyToken, verifyRole, deleteValidator, deleteUser)
 
 routerUsers.post("/logout", verifyToken, logOutUser)
 
