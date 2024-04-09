@@ -52,7 +52,7 @@ class UserService extends BaseService {
 
     async authentication({ email, password }) {
         try {
-            console.log('entro')
+
             const user = await prisma.user.findUnique({ where: { email } });
 
             if (!user) {

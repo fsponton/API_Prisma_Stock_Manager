@@ -11,5 +11,5 @@ export default async (req, res) => {
 
     const result = await baseService.create({ full_name, email, password: passwordHash })
     return res.status(200)
-        .send({ status: "Success", message: `The user with the email ${result.email} has been created` })
+        .send({ error: false, message: `The user with the email ${result.email} has been created` })
 }

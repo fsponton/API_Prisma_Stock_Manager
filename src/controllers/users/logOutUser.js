@@ -11,6 +11,6 @@ export default async (req, res) => {
     //el token que envio esta vencido y reemplaza el que estataba en el navegador, o puede borrarse tambien en el navegador para cerrar el logout.
     return res.status(200)
         .header({ token: result.token })
-        .send({ status: "Success", message: `Hi ${token.email} you are logged out` })
+        .send({ error: false, message: `Hi ${token.email} you are logged out` })
 }
 

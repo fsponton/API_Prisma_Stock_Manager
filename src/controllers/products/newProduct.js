@@ -24,5 +24,5 @@ export default async (req, res) => {
     })
 
     return res.status(200)
-        .send({ status: "Success", message: `The product with name: ${result.name} has been created` })
+        .send({ error: false, message: `The product with name: ${result.name} has been created` })
 }

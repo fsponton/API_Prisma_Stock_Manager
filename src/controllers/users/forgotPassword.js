@@ -15,6 +15,6 @@ export default async (req, res) => {
     transporter.sendMail(mailOptions(mailOption.email, mailOption.slug), (err) => {
         if (err) { return process.exit(1); }
     })
-    return res.status(200).send({ status: "Success", msg: `An email link has been sent to:  ${mailOption.email}` })
+    return res.status(200).send({ error: false, msg: `An email link has been sent to:  ${mailOption.email}` })
 
 }

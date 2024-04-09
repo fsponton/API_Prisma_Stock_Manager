@@ -1,20 +1,24 @@
 import { KeysError } from "../utils/errors/index.js"
 
+const checkKeys = (originalKeys, keysFromRequest) => {
+
+    const filteredKeysFromRequest = keysFromRequest.filter(key => originalKeys.includes(key));
+    const errorKeys = originalKeys.filter(key => !filteredKeysFromRequest.includes(key));
+    const missingKeys = keysFromRequest.filter(key => !originalKeys.includes(key));
+
+    return { missingKeys, errorKeys };
+}
 
 const keysValidator = (keysFromRequest, originalKeys) => {
 
-    const stringKeys = keysFromRequest.join(", ")
+    const keys = checkKeys(keysFromRequest, originalKeys)
 
-    // check keys quantity keys
-    if (keysFromRequest.length !== originalKeys.length) { throw new KeysError(`The keys provided: ${stringKeys} in req.body are not valid.`, 400) }
+    const sortedKeysFromRequest = keysFromRequest.sort()
+    const sortedOriginalKeys = originalKeys.sort()
 
-    const sortedArray1 = keysFromRequest.sort()
-    const sortedArray2 = originalKeys.sort()
-
-    // compare values of arrays
-    for (let i = 0; i < sortedArray1.length; i++) {
-        if (sortedArray1[i] !== sortedArray2[i]) {
-            throw new KeysError(`The keys provided: ${stringKeys} in req.body are not valid. `, 400)
+    for (let i = 0; i < sortedOriginalKeys.length; i++) {
+        if (sortedKeysFromRequest[i] !== sortedOriginalKeys[i]) {
+            throw new KeysError(`This keys are not valid: ${keys.errorKeys ? keys.errorKeys.join(', ') : 'null'}, in req.body. The missing keys are: ${keys.missingKeys ? keys.missingKeys.join(', ') : ''}`, 400)
         }
     }
 

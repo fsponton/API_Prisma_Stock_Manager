@@ -6,5 +6,5 @@ export default async (req, res) => {
     const { name, available } = req.body
     const result = await baseService.create({ name, available })
     return res.status(200)
-        .send({ status: "Success", message: `The category with name: ${result.name} has been created` })
+        .send({ error: false, message: `The category with name: ${result.name} has been created` })
 }

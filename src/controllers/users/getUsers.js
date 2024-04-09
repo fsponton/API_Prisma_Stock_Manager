@@ -5,5 +5,5 @@ const baseService = new UserService()
 export default async (_req, res) => {
     const result = await baseService.findAll()
     return res.status(200)
-        .send({ status: "Success", message: `The users are fetched successfully`, data: result })
+        .send({ error: false, message: `The users are fetched successfully`, data: result })
 }

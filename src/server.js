@@ -28,29 +28,38 @@ server.use('/products', routerProducts)
 server.use('/categories', routerCategories)
 
 
-server.use((err, _req, res, _next) => {
-    console.log('ERRRen server', err)
-    //errores duplicados cuando se inteta registrar un dato unico que existe, ej email
-    if (err.code === 'P2002') {
+server.use((error, _req, res, _next) => {
+
+    // console.log('ERRRen server', error)
+
+    if (error.code === 'P2002') {
         return res.status(409).send({
             error: true,
             errorName: 'Duplicate Unique',
-            message: `The ${err.meta.target[0]} has already exists on the database`
+            message: `The ${error.meta.target[0]} has already exists on the database`
         })
     }
 
-    if (err.code === 'p2025') {
+    // if (error.message.includes('email')) {
+    //     return res.status(409).send({
+    //         error: true,
+    //         errorName: 'Duplicate Unique',
+    //         message: `The user to create has already exists on the database, select another email`
+    //     })
+    // }
+
+    if (error.code === 'p2025') {
         return res.status(404).send({
             error: true,
             errorName: 'Not found',
-            message: `${err.meta} `
+            message: `${error.meta} `
         })
     }
 
-    return res.status(err.code).send({
+    return res.status(error.code).send({
         error: true,
-        errorName: err.name,
-        message: err.message
+        errorName: error.name,
+        message: error.message
     })
 
 })

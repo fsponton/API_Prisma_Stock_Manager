@@ -6,5 +6,5 @@ export default async (req, res) => {
     const { idUserToDelete } = req
     const result = await baseService.delete(idUserToDelete)
     return res.status(200)
-        .send({ status: "Success", message: `The user with the id ${result.id} and email ${result.email} has been delete` })
+        .send({ error: false, message: `The user with the id ${result.id} and email ${result.email} has been delete` })
 }
