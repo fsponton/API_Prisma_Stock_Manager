@@ -4,7 +4,7 @@ import { loginValidator, getByIdValidator, registerValidator, verifyToken, reset
 
 const routerUsers = Router();
 // verifyToken, verifyRole,
-routerUsers.post("/register_user", registerValidator, registerUser)
+routerUsers.post("/register", registerValidator, registerUser)
 
 routerUsers.post("/login", loginValidator, loginUser)
 
@@ -18,7 +18,7 @@ routerUsers.get("/:userID", verifyToken, getByIdValidator, getById)
 
 routerUsers.put("/:userID", verifyToken, verifyRole, updateValidator, updateUser)
 
-routerUsers.delete("/delete", verifyToken, verifyRole, deleteValidator, deleteUser)
+routerUsers.delete("/", verifyToken, verifyRole, deleteValidator, deleteUser)
 
 routerUsers.post("/logout", verifyToken, logOutUser)
 
