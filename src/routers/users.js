@@ -3,8 +3,8 @@ import { registerUser, loginUser, forgotPassword, resetPassword, getUsers, updat
 import { loginValidator, getByIdValidator, registerValidator, verifyToken, resetPasswordValidator, updateValidator, verifyRole, deleteValidator } from "../middlewares/users/index.js"
 
 const routerUsers = Router();
-
-routerUsers.post("/register_user", verifyToken, verifyRole, registerValidator, registerUser)
+// verifyToken, verifyRole,
+routerUsers.post("/register_user", registerValidator, registerUser)
 
 routerUsers.post("/login", loginValidator, loginUser)
 

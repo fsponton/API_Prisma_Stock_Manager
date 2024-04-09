@@ -1,7 +1,7 @@
 import express from "express"
 import bodyParser from "body-parser";
 import morgan from "morgan";
-
+import cors from "cors";
 export const server = express();
 import routerUsers from "./routers/users.js"
 import routerProducts from "./routers/products.js";
@@ -12,6 +12,7 @@ server.use(express.json());
 server.use(bodyParser.urlencoded({ extended: true, limit: '50mb' }));
 server.use(bodyParser.json({ limit: '50mb' }));
 server.use(morgan('dev'));
+server.use(cors());
 server.use((req, res, next) => {
     res.header('Access-Control-Allow-Origin', '*'); //definir donde esta el front y poner direccion 
     res.header('Access-Control-Allow-Credentials', 'true');

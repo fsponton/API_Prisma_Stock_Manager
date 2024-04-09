@@ -16,8 +16,8 @@ const toNewProduct = ({ name, model, id_category, brand, price, code, available,
         sector: parseToString('sector', handleNullable(sector)),
         rack: parseToString('rack', handleNullable(rack)),
         square_meter: isNumber('square_meter', handleNullable(square_meter)),
-        size: isNumber('size', handleNullable(square_meter)),
-        weight: isNumber('weight', handleNullable(square_meter)),
+        size: isNumber('size', handleNullable(size)),
+        weight: isNumber('weight', handleNullable(weight)),
         id_creator,
     }
 
