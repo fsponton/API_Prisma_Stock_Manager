@@ -8,15 +8,15 @@ datasource db {
 }
 
 model User {
-  id         Int       @id @unique @default(autoincrement())
-  full_name  String
-  email      String    @unique
-  role       Role      @default(EMPLOYEE)
+  id         Int         @id @unique @default(autoincrement())
+  fullName   String
+  email      String      @unique
+  role       Role        @default(EMPLOYEE)
   password   String
   resetToken String?
-  active     Boolean   @default(true)
-  orders     Order[] // seller orders
-  product    Product[] // charged products
+  active     Boolean     @default(true)
+  sellOrders SellOrder[] // seller sellOrders 
+  product    Product[] // charged products by user
 }
 
 enum Role {
@@ -32,74 +32,167 @@ model Category {
   Product   Product[]
 }
 
+enum StockType {
+  LOCAL
+  ONLINE
+  // OTHER
+}
+
+model StockProduct {
+  id       String                  @id @unique @default(uuid())
+  type     StockType // online - local - OTHER
+  products StockProductOnProduct[]
+}
+
+model StockProductOnProduct {
+  idProduct String
+  product   Product @relation(fields: [idProduct], references: [id])
+
+  idStockProduct String
+  stockProduct   StockProduct @relation(fields: [idStockProduct], references: [id])
+
+  quantity Int
+
+  @@unique([idProduct, idStockProduct])
+}
+
 model Product {
-  id             String         @id @unique @default(uuid())
-  name           String
-  model          String
-  category       Category       @relation(fields: [id_category], references: [id])
-  id_category    Int
-  brand          String
-  price          Float
-  code           String
-  available      Boolean
-  description    String?
-  quantity       Int
-  sector         String?
-  rack           String?
-  square_meter   Int?
-  size           Int?
-  weight         Int?
-  creator        User           @relation(fields: [id_creator], references: [id])
-  id_creator     Int
-  product_orders ProductOrder[]
+  id                     String                  @id @unique @default(uuid())
+  createdAd              DateTime                @default(now())
+  name                   String
+  qr                     String?
+  model                  String
+  category               Category                @relation(fields: [idCategory], references: [id])
+  idCategory             Int // es necesario que este cargada
+  brand                  String
+  price                  Float
+  available              Boolean // permite poner productos en sellOrder si es true
+  description            String?
+  quantity               Int // revisar si va en stock o aca....
+  sector                 String?
+  imageLink              String?
+  rack                   String?
+  volume                 Float? // recordad que va en m3/cm3/dm3
+  size                   String? //10x20x30cm
+  weight                 Float? // KG
+  creator                User                    @relation(fields: [idCreator], references: [id])
+  idCreator              Int // id creador viene en token
+  providers              ProductOnProvider[]
+  productSellOrders      ProductSellOrder[]
+  stockProductOnProduct  StockProductOnProduct[]
+  productsStockedClients ProductsStockedClient[]
 }
 
-model ProductOrder {
-  id_order   String
-  id_product String
-  product    Product @relation(fields: [id_product], references: [id])
-  order      Order   @relation(fields: [id_order], references: [id])
-  quantity   Int
+model ProductOnProvider {
+  idProduct String
+  product   Product @relation(fields: [idProduct], references: [id])
 
-  @@id([id_order, id_product])
+  idProvider String
+  provider   Provider @relation(fields: [idProvider], references: [id])
+
+  @@id([idProduct, idProvider])
 }
 
-model Order {
-  id        String         @id @unique @default(uuid())
-  createdAt DateTime       @default(now())
-  status    Status_Order   @relation(fields: [id_status], references: [id])
-  id_status Int // status order
-  client    Client         @relation(fields: [id_client], references: [id])
-  id_client String
-  products  ProductOrder[] // products on order
-  seller    User           @relation(fields: [id_seller], references: [id])
-  id_seller Int // seller user
-  invoice   Invoice?
+model Provider {
+  id                String              @id @unique @default(uuid())
+  name              String
+  address           String?
+  cuitCuil          String?
+  phone             Int?
+  email             String?
+  ProductOnProvider ProductOnProvider[]
 }
 
-model Status_Order {
-  id     Int     @id @unique @default(autoincrement())
-  status String // pending - in progress - finished
-  orders Order[]
+model ProductSellOrder {
+  idSellOrder String
+  idProduct   String
+  product     Product   @relation(fields: [idProduct], references: [id])
+  sellOrder   SellOrder @relation(fields: [idSellOrder], references: [id])
+  quantity    Int
+
+  @@id([idSellOrder, idProduct])
+}
+
+model SellOrder {
+  id              String             @id @unique @default(uuid())
+  createdAt       DateTime           @default(now())
+  expiration      String
+  status          StatusSellOrder    @relation(fields: [idStatus], references: [id])
+  idStatus        Int // status sellOrder
+  client          Client             @relation(fields: [idClient], references: [id])
+  idClient        String
+  products        ProductSellOrder[] // products on sellOrder
+  seller          User               @relation(fields: [idSeller], references: [id])
+  idSeller        Int // seller user
+  mehtodPayment   MethodPayment      @relation(fields: [idMethodPayment], references: [id])
+  idMethodPayment Int
+  invoice         Invoice?
+  remite          Remite?
+  observations    String?
+}
+
+model MethodPayment {
+  id        Int         @id @unique @default(autoincrement())
+  method    String // factura - remite - other new
+  sellOrder SellOrder[]
 }
 
 model Invoice {
-  id         String   @id @unique @default(uuid())
-  order      Order    @relation(fields: [id_order], references: [id])
-  id_order   String   @unique
-  date       DateTime @default(now())
-  total      Float
-  clientData Client   @relation(fields: [id_client], references: [id])
-  id_client  String
+  id          String    @id @unique @default(uuid())
+  sellOrder   SellOrder @relation(fields: [idSellOrder], references: [id])
+  idSellOrder String    @unique
+  date        DateTime  @default(now())
+  total       Float
+  clientData  Client    @relation(fields: [idClient], references: [id])
+  idClient    String
+}
+
+model StatusSellOrder {
+  id         Int         @id @unique @default(autoincrement())
+  status     String // pending - in progress - finished
+  sellOrders SellOrder[]
+}
+
+model Remite {
+  id          String    @id @unique @default(uuid())
+  sellOrder   SellOrder @relation(fields: [idSellOrder], references: [id])
+  idSellOrder String    @unique
+  date        DateTime  @default(now())
+  total       Float
+  clientData  Client    @relation(fields: [idClient], references: [id])
+  idClient    String
 }
 
 model Client {
-  id            String    @id @unique @default(uuid())
-  name          String
-  cuit_cuil_dni String
-  phone         Int
-  email         String
-  direccion     String
-  orders        Order[]
-  invoices      Invoice[]
+  id              String                  @id @unique @default(uuid())
+  name            String
+  cuitCuil        String?
+  dni             Int
+  phone           Int
+  email           String?
+  address         String?
+  sellOrders      SellOrder[]
+  invoices        Invoice[]
+  remites         Remite[]
+  productsStocked ProductsStockedClient[]
 }
+
+model ProductsStockedClient {
+  id String @id @unique @default(uuid())
+
+  client   Client @relation(fields: [idClient], references: [id])
+  idClient String
+
+  product   Product @relation(fields: [idProduct], references: [id])
+  idProduct String
+  quantity  Int
+
+  @@unique([idClient, idProduct])
+}
+
+//chequear relaciones
+
+//crear tablas
+//buyORder
+//buyInvoice
+//buyRemite
