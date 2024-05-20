@@ -2,14 +2,14 @@ import { parseToString, isValidEmail, isValidNewPassword } from "../../../helper
 import { isBoolean, isValidRole } from "../../../helpers/genericFunctions.js"
 import { UserError } from "../../errors/index.js";
 
-const toUpdateUser = ({ full_name, email, role, active }) => {
+const toUpdateUser = ({ fullName, email, role, active }) => {
 
-    if (!full_name || full_name.trim() === "") {
+    if (!fullName || fullName.trim() === "") {
         throw new UserError("The name of new user can't be empty or null");
     }
 
     const updateUser = {
-        full_name: parseToString('full_name', full_name),
+        fullName: parseToString('fullName', fullName),
         email: isValidEmail(email),
         role: isValidRole(parseToString('role', role)),
         active: isBoolean('active', active)

@@ -1,16 +1,14 @@
 import { Router } from "express"
-import { registerUser, loginUser, forgotPassword, resetPassword, getUsers, updateUser, deleteUser, logOutUser, getById } from "../controllers/users/index.js";
-import { loginValidator, getByIdValidator, registerValidator, verifyToken, resetPasswordValidator, updateValidator, verifyRole, deleteValidator } from "../middlewares/users/index.js"
+import { registerUser, getUsers, updateUser, deleteUser, getById } from "../controllers/users/index.js";
+import { getByIdValidator, registerValidator, updateValidator, deleteValidator } from "../middlewares/users/index.js"
+import { verifyToken, verifyRole } from "../middlewares/auth/index.js"
+
+
 
 const routerUsers = Router();
 // verifyToken, verifyRole,
-routerUsers.post("/register", registerValidator, registerUser)
+routerUsers.post("/", registerValidator, registerUser)
 
-routerUsers.post("/login", loginValidator, loginUser)
-
-routerUsers.post("/forgot_password", forgotPassword)
-
-routerUsers.put("/reset_password", verifyToken, resetPasswordValidator, resetPassword)
 
 routerUsers.get("/", verifyToken, getUsers)
 
@@ -18,9 +16,6 @@ routerUsers.get("/:userID", verifyToken, getByIdValidator, getById)
 
 routerUsers.put("/:userID", verifyToken, verifyRole, updateValidator, updateUser)
 
-routerUsers.delete("/delete", verifyToken, verifyRole, deleteValidator, deleteUser)
-
-routerUsers.post("/logout", verifyToken, logOutUser)
-
+routerUsers.delete("/:userId", verifyToken, verifyRole, deleteValidator, deleteUser)
 
 export default routerUsers;

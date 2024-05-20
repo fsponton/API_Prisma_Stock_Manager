@@ -1,12 +1,12 @@
 import { isBoolean, isNumber, handleNullable, parseToString } from "../../../helpers/genericFunctions.js";
 
 
-const toNewProduct = ({ name, model, id_category, brand, price, code, available, description, quantity, sector, rack, square_meter, size, weight, id_creator }) => {
+const toNewProduct = ({ name, model, idCategory, brand, price, code, available, description, quantity, sector, rack, square_meter, size, weight, id_creator }) => {
 
     const newEntry = {
         name: parseToString('name', name),
         model: parseToString('model', model),
-        id_category: isNumber('id_category', id_category),
+        idCategory: isNumber('idCategory', idCategory),
         brand: parseToString('brand', brand),
         price: isNumber('price', price),
         code: parseToString('code', code),

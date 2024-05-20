@@ -18,7 +18,7 @@ class UserService extends BaseService {
             return await prisma.user.findMany({
                 select: {
                     id: true,
-                    full_name: true,
+                    fullName: true,
                     email: true,
                     role: true,
                     active: true,
@@ -37,7 +37,7 @@ class UserService extends BaseService {
                 where: { id },
                 select: {
                     id: true,
-                    full_name: true,
+                    fullName: true,
                     email: true,
                     role: true,
                     active: true,
@@ -66,7 +66,7 @@ class UserService extends BaseService {
 
             const userForToken = {
                 id: user.id,
-                full_name: user.full_name,
+                fullName: user.fullName,
                 email: user.email,
                 role: user.role,
                 active: user.active

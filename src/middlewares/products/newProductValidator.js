@@ -4,14 +4,14 @@ import { toNewProduct } from "../../utils/formValidation/products/toNewProduct.j
 
 
 export default (req, _res, next) => {
-    const { name, model, id_category, brand, price, code, available, description, quantity, sector, rack, square_meter, size, weight } = req.body
+    const { name, model, idCategory, brand, price, code, available, description, quantity, sector, rack, square_meter, size, weight } = req.body
     const { token } = req
 
     const originalKeys = getOriginalKeysPath(req.path)
 
     keysValidator(Object.keys(req.body), originalKeys)
 
-    req.newProduct = toNewProduct({ name, model, id_category, brand, price, code, available, description, quantity, sector, rack, square_meter, size, weight, id_creator: token.id })
+    req.newProduct = toNewProduct({ name, model, idCategory, brand, price, code, available, description, quantity, sector, rack, square_meter, size, weight, id_creator: token.id })
 
     next()
 }

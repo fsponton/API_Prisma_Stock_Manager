@@ -3,12 +3,12 @@ import BaseService from "../../config/DB/baseServices.js"
 const baseService = new BaseService('Product')
 
 export default async (req, res) => {
-    const { name, model, id_category, brand, price, code, available, description, quantity, sector, rack, square_meter, size, weight, id_creator } = req.newProduct
+    const { name, model, idCategory, brand, price, code, available, description, quantity, sector, rack, square_meter, size, weight, id_creator } = req.newProduct
 
     const result = await baseService.create({
         name,
         model,
-        id_category,
+        idCategory,
         brand,
         price,
         code,

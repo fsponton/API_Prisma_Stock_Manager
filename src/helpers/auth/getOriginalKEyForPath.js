@@ -6,7 +6,8 @@ export default (path) => {
 
 
     const originalKeys = {
-        register: ["fullName", "email", "password"],
+        login: ["email", "password"],
+        logout: ["fullName", "email", "password"],
         reset_password: ["password"]
     }
 

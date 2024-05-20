@@ -17,6 +17,7 @@ model User {
   active     Boolean     @default(true)
   sellOrders SellOrder[] // seller sellOrders 
   product    Product[] // charged products by user
+  BuyOrder   BuyOrder[]
 }
 
 enum Role {
@@ -32,16 +33,17 @@ model Category {
   Product   Product[]
 }
 
-enum StockType {
-  LOCAL
-  ONLINE
-  // OTHER
+model StockType {
+  id           Int            @id @unique @default(autoincrement())
+  type         String // online - local - other
+  stockProduct StockProduct[]
 }
 
 model StockProduct {
-  id       String                  @id @unique @default(uuid())
-  type     StockType // online - local - OTHER
-  products StockProductOnProduct[]
+  id          String                  @id @unique @default(uuid())
+  type        StockType               @relation(fields: [stockTypeId], references: [id])
+  products    StockProductOnProduct[]
+  stockTypeId Int
 }
 
 model StockProductOnProduct {
@@ -53,14 +55,14 @@ model StockProductOnProduct {
 
   quantity Int
 
-  @@unique([idProduct, idStockProduct])
+  @@id([idProduct, idStockProduct])
 }
 
 model Product {
   id                     String                  @id @unique @default(uuid())
   createdAd              DateTime                @default(now())
   name                   String
-  qr                     String?
+  qr                     String?                 @unique
   model                  String
   category               Category                @relation(fields: [idCategory], references: [id])
   idCategory             Int // es necesario que este cargada
@@ -81,6 +83,7 @@ model Product {
   productSellOrders      ProductSellOrder[]
   stockProductOnProduct  StockProductOnProduct[]
   productsStockedClients ProductsStockedClient[]
+  ProductBuyOrder        ProductBuyOrder[]
 }
 
 model ProductOnProvider {
@@ -101,14 +104,26 @@ model Provider {
   phone             Int?
   email             String?
   ProductOnProvider ProductOnProvider[]
+  BuyOrder          BuyOrder[]
+  BuyInvoice        BuyInvoice[]
+  BuyRemite         BuyRemite[]
+}
+
+model MethodPayment {
+  id        Int         @id @unique @default(autoincrement())
+  method    String // factura - remite - other new
+  sellOrder SellOrder[]
+  BuyOrder  BuyOrder[]
 }
 
 model ProductSellOrder {
   idSellOrder String
-  idProduct   String
-  product     Product   @relation(fields: [idProduct], references: [id])
   sellOrder   SellOrder @relation(fields: [idSellOrder], references: [id])
-  quantity    Int
+
+  idProduct String
+  product   Product @relation(fields: [idProduct], references: [id])
+
+  quantity Int
 
   @@id([idSellOrder, idProduct])
 }
@@ -116,7 +131,7 @@ model ProductSellOrder {
 model SellOrder {
   id              String             @id @unique @default(uuid())
   createdAt       DateTime           @default(now())
-  expiration      String
+  expiration      String?
   status          StatusSellOrder    @relation(fields: [idStatus], references: [id])
   idStatus        Int // status sellOrder
   client          Client             @relation(fields: [idClient], references: [id])
@@ -126,25 +141,9 @@ model SellOrder {
   idSeller        Int // seller user
   mehtodPayment   MethodPayment      @relation(fields: [idMethodPayment], references: [id])
   idMethodPayment Int
-  invoice         Invoice?
-  remite          Remite?
+  invoice         SellInvoice?
+  remite          SellRemite?
   observations    String?
-}
-
-model MethodPayment {
-  id        Int         @id @unique @default(autoincrement())
-  method    String // factura - remite - other new
-  sellOrder SellOrder[]
-}
-
-model Invoice {
-  id          String    @id @unique @default(uuid())
-  sellOrder   SellOrder @relation(fields: [idSellOrder], references: [id])
-  idSellOrder String    @unique
-  date        DateTime  @default(now())
-  total       Float
-  clientData  Client    @relation(fields: [idClient], references: [id])
-  idClient    String
 }
 
 model StatusSellOrder {
@@ -153,7 +152,7 @@ model StatusSellOrder {
   sellOrders SellOrder[]
 }
 
-model Remite {
+model SellInvoice {
   id          String    @id @unique @default(uuid())
   sellOrder   SellOrder @relation(fields: [idSellOrder], references: [id])
   idSellOrder String    @unique
@@ -161,6 +160,74 @@ model Remite {
   total       Float
   clientData  Client    @relation(fields: [idClient], references: [id])
   idClient    String
+}
+
+model SellRemite {
+  id          String    @id @unique @default(uuid())
+  sellOrder   SellOrder @relation(fields: [idSellOrder], references: [id])
+  idSellOrder String    @unique
+  date        DateTime  @default(now())
+  total       Float
+  clientData  Client    @relation(fields: [idClient], references: [id])
+  idClient    String
+}
+
+//Buy orders - providers
+
+model ProductBuyOrder {
+  idBuyOrder String
+  sellOrder  BuyOrder @relation(fields: [idBuyOrder], references: [id])
+
+  idProduct String
+  product   Product @relation(fields: [idProduct], references: [id])
+
+  quantity Int
+
+  @@id([idBuyOrder, idProduct])
+}
+
+model BuyOrder {
+  id              String            @id @unique @default(uuid())
+  createdAt       DateTime          @default(now())
+  expiration      String?
+  status          StatusBuyOrder    @relation(fields: [idStatus], references: [id])
+  idStatus        Int // status sellOrder
+  provider        Provider          @relation(fields: [idProvider], references: [id])
+  idProvider      String
+  products        ProductBuyOrder[] // products on sellOrder
+  seller          User              @relation(fields: [idBuyer], references: [id])
+  idBuyer         Int // seller user
+  mehtodPayment   MethodPayment     @relation(fields: [idMethodPayment], references: [id])
+  idMethodPayment Int
+  invoice         BuyInvoice?
+  remite          BuyRemite?
+  observations    String?
+}
+
+model StatusBuyOrder {
+  id         Int        @id @unique @default(autoincrement())
+  status     String // pending - in progress - finished
+  sellOrders BuyOrder[]
+}
+
+model BuyInvoice {
+  id         String   @id @unique @default(uuid())
+  sellOrder  BuyOrder @relation(fields: [idBuyOrder], references: [id])
+  idBuyOrder String   @unique
+  date       DateTime @default(now())
+  total      Float
+  provider   Provider @relation(fields: [idProvider], references: [id])
+  idProvider String
+}
+
+model BuyRemite {
+  id         String   @id @unique @default(uuid())
+  sellOrder  BuyOrder @relation(fields: [idBuyOrder], references: [id])
+  idBuyOrder String   @unique
+  date       DateTime @default(now())
+  total      Float
+  provider   Provider @relation(fields: [idProvider], references: [id])
+  idProvider String
 }
 
 model Client {
@@ -172,27 +239,26 @@ model Client {
   email           String?
   address         String?
   sellOrders      SellOrder[]
-  invoices        Invoice[]
-  remites         Remite[]
-  productsStocked ProductsStockedClient[]
+  invoices        SellInvoice[]
+  remites         SellRemite[]
+  productsStocked ProductsStockedClient[] // acopios
 }
 
 model ProductsStockedClient {
-  id String @id @unique @default(uuid())
-
-  client   Client @relation(fields: [idClient], references: [id])
   idClient String
+  client   Client @relation(fields: [idClient], references: [id])
 
-  product   Product @relation(fields: [idProduct], references: [id])
   idProduct String
-  quantity  Int
+  product   Product @relation(fields: [idProduct], references: [id])
 
-  @@unique([idClient, idProduct])
+  quantity Int
+
+  @@id([idClient, idProduct])
 }
 
 //chequear relaciones
 
 //crear tablas
 //buyORder
-//buyInvoice
-//buyRemite
+//buySellInvoice
+//buySellRemite

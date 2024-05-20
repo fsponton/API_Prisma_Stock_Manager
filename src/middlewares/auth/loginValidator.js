@@ -1,5 +1,5 @@
 import keysValidator from "../../helpers/keysValidator.js"
-import { toLoginUser } from "../../utils/formValidation/users/toLoginUser.js"
+import { toLoginUser } from "../../utils/formValidation/auth/toLoginUser.js"
 import getOriginalKeysPath from "../../helpers/users/getOriginalKeysForPath.js"
 
 

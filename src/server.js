@@ -3,9 +3,11 @@ import bodyParser from "body-parser";
 import morgan from "morgan";
 import cors from "cors";
 export const server = express();
+
 import routerUsers from "./routers/users.js"
 import routerProducts from "./routers/products.js";
 import routerCategories from "./routers/categories.js";
+import routerAuth from "./routers/auth.js";
 
 // middlewares
 server.use(express.json());
@@ -23,6 +25,7 @@ server.use((req, res, next) => {
 
 
 //routes
+server.use('/auth', routerAuth);
 server.use('/users', routerUsers);
 server.use('/products', routerProducts)
 server.use('/categories', routerCategories)

@@ -3,12 +3,12 @@ import { toNewUserEntry } from "../../utils/formValidation/users/toNewUserEntry.
 import getOriginalKeysPath from "../../helpers/users/getOriginalKeysForPath.js"
 
 export default (req, _res, next) => {
-    const { full_name, email, password } = req.body
+    const { fullName, email, password } = req.body
     const originalKeys = getOriginalKeysPath(req.path)
 
     keysValidator(Object.keys(req.body), originalKeys)
 
-    req.newUserEntry = toNewUserEntry({ full_name, email, password })
+    req.newUserEntry = toNewUserEntry({ fullName, email, password })
 
     next()
 }
